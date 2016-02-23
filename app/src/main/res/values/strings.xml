@@ -3,5 +3,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">990811460986304</string>
+    <string name="frag1">Frag 1</string>
+    <string name="frag2">Frag 2</string>
+    <string name="frag3">Frag 3</string>
+    <string name="menu1">Item 1</string>
+    <string name="menu2">Item 2</string>
+    <string name="menu3">Item 3</string>
+    <string name="drawerOpened">Opened</string>
+    <string name="drawerClosed">Closed</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+
 
 </resources>

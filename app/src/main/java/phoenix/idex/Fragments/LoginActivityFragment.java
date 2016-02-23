@@ -1,11 +1,17 @@
-package phoenix.idex;
+package phoenix.idex.Fragments;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -19,15 +25,19 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import phoenix.idex.R;
+import phoenix.idex.SignUpActivity;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class LoginActivityFragment extends Fragment implements View.OnClickListener {
     private TextView mTextDetails;
     private CallbackManager mCallbackManager;
-
+    private Button bRegister;
     private AccessTokenTracker mTokenTracker;
     private ProfileTracker mProfileTracker;
+    private View v;
 
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
@@ -47,7 +57,7 @@ public class MainActivityFragment extends Fragment {
 
         }
     };
-    public MainActivityFragment() {
+    public LoginActivityFragment() {
     }
 
     @Override
@@ -55,6 +65,8 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
+
+        // Track facebook users here
         AccessTokenTracker tracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
@@ -68,6 +80,8 @@ public class MainActivityFragment extends Fragment {
                 displayWelcomeMessage(newProfile);
             }
         };
+
+
         tracker.startTracking();
         profileTracker.startTracking();
     }
@@ -75,14 +89,36 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        mTokenTracker.stopTracking();
-        mProfileTracker.stopTracking();
+        if (mTokenTracker != null) {
+            mTokenTracker.stopTracking();
+            mProfileTracker.stopTracking();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        v = inflater.inflate(R.layout.fragment_login, container, false);
+        bRegister = (Button) v.findViewById(R.id.bRegister);
+        bRegister.setOnClickListener(this);
+
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
+
+        return v;
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bRegister:
+                Intent signUpIntent = new Intent(getActivity(), SignUpActivity.class);
+                startActivity(signUpIntent);
+                break;
+        }
     }
 
     @Override
@@ -92,6 +128,12 @@ public class MainActivityFragment extends Fragment {
         loginButton.setReadPermissions("basic_info");
         loginButton.setFragment(this);
         loginButton.registerCallback(mCallbackManager,mCallback);
+
+        // Change title font
+        Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "Starjhol.ttf" );
+        TextView idexTitle = (TextView) view.findViewById(R.id.idexTitle);
+        idexTitle.setTypeface(myTypeface);
+
     }
 
     @Override
