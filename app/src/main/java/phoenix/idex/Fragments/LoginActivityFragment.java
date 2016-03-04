@@ -39,6 +39,10 @@ public class LoginActivityFragment extends Fragment implements View.OnClickListe
     private ProfileTracker mProfileTracker;
     private View v;
 
+
+    private android.support.v7.widget.Toolbar toolbar;
+
+
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
@@ -65,6 +69,7 @@ public class LoginActivityFragment extends Fragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
+
 
         // Track facebook users here
         AccessTokenTracker tracker = new AccessTokenTracker() {
@@ -99,7 +104,7 @@ public class LoginActivityFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_login, container, false);
+        v = inflater.inflate(R.layout.frag_login, container, false);
         bRegister = (Button) v.findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
 
@@ -110,6 +115,17 @@ public class LoginActivityFragment extends Fragment implements View.OnClickListe
     }
 
 
+/*
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+*/
 
     @Override
     public void onClick(View v) {
@@ -127,7 +143,7 @@ public class LoginActivityFragment extends Fragment implements View.OnClickListe
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setReadPermissions("basic_info");
         loginButton.setFragment(this);
-        loginButton.registerCallback(mCallbackManager,mCallback);
+        loginButton.registerCallback(mCallbackManager, mCallback);
 
         // Change title font
         Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "Starjhol.ttf" );

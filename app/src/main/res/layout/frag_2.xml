@@ -3,11 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/logo" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/frag2"
-        android:textSize="30sp"
-        android:layout_gravity="center"/>
+        android:text="@string/info"
+        android:textSize="40sp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="70dp"
+        android:typeface="monospace"
+        android:gravity="center" />
 
 </LinearLayout>

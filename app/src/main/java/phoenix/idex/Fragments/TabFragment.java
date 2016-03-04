@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
@@ -14,8 +16,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import phoenix.idex.Adapters.ViewPagerAdapter;
 import phoenix.idex.R;
+import phoenix.idex.TabAdapter.ViewPagerAdapter;
 
 /**
  * Created by Ravinder on 2/20/16.
@@ -26,14 +28,22 @@ public class TabFragment extends Fragment implements ViewPager.OnPageChangeListe
     private View v;
     private ViewPagerAdapter viewPagerAdapter;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.activity_tab, container, false);
+        v = inflater.inflate(R.layout.activity_tabs, container, false);
 
+        setHasOptionsMenu(true);
         initTabHost();
         initViewPager();
         setTabFont();
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.useraccount_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public class TabContent implements TabHost.TabContentFactory {
@@ -56,8 +66,8 @@ public class TabFragment extends Fragment implements ViewPager.OnPageChangeListe
     // Set view pager with the two fragment tabs and set listener to it
     private void initViewPager() {
         List<Fragment> listFrag = new ArrayList<>();
-        listFrag.add(new FragmentA());
-        listFrag.add(new FragmentB());
+        listFrag.add(new UserstatFragment());
+        listFrag.add(new PostListFragment());
 
         this.viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), listFrag);
         this.viewPager = (ViewPager) v.findViewById(R.id.viewPager);
@@ -70,7 +80,7 @@ public class TabFragment extends Fragment implements ViewPager.OnPageChangeListe
         tabHost = (TabHost) v.findViewById(R.id.tabHost);
         tabHost.setup();
 
-        String[] tabNames = {"Stats", "My Account"};
+        String[] tabNames = {"Stats", "My Posts"};
 
         for (int i = 0; i < tabNames.length; i++) {
             TabHost.TabSpec tabSpec;
